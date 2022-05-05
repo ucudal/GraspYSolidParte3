@@ -4,7 +4,6 @@
 // </copyright>
 //-------------------------------------------------------------------------
 
-using System;
 using System.Collections;
 using System.Linq;
 using Full_GRASP_And_SOLID.Library;
@@ -26,9 +25,15 @@ namespace Full_GRASP_And_SOLID
             recipe.AddStep(new Step(GetProduct("Café"), 100, GetEquipment("Cafetera"), 120));
             recipe.AddStep(new Step(GetProduct("Leche"), 200, GetEquipment("Hervidor"), 60));
 
-            AllInOnePrinter printer = new AllInOnePrinter();
-            printer.PrintRecipe(recipe, Destination.Console);
-            printer.PrintRecipe(recipe, Destination.File);
+            // Utilicé una interfaz llamada IPrinter, implementada por ConsolePrinter y 
+            // FilePrinter (ambas nuevas clases), que permite aplicar polimorfismo y el 
+            // principio de sustitución de Liskov (LSP). Como ambas clases implementan la 
+            // interfaz en común, puedo reemplazar el tipo de una variable que representa a una
+            // instancia de cualquiera de estas clases por la interfaz.
+            IPrinter printer = new ConsolePrinter();
+            printer.PrintRecipe(recipe);
+            printer = new FilePrinter();
+            printer.PrintRecipe(recipe);
         }
 
         private static void PopulateCatalogs()
